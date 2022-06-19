@@ -1,1 +1,1 @@
-web: gunicorn cubicon.wsgi
+web: gunicorn --chdir=src/cubicon cubicon.wsgi
