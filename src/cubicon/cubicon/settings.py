@@ -91,13 +91,14 @@ WSGI_APPLICATION = 'cubicon.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'USER': configs.db_uname,
-        # 'PASSWORD': configs.db_password,
-        # 'HOST': configs.db_host,
-        # 'PORT': configs.db_port,
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ddtudiouhp8i2n',
+        'USER': 'wukriojkweqgfy',
+        'PASSWORD': '1c96fd1a3f366b008505839c74aa647983126e8ec866251aaf2e257648ab6079',
+        'HOST': "ec2-99-80-170-190.eu-west-1.compute.amazonaws.com",
+        'PORT': '5432',
     }
 }
 
