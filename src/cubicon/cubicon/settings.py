@@ -89,19 +89,22 @@ WSGI_APPLICATION = 'cubicon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ddtudiouhp8i2n',
-        'USER': 'wukriojkweqgfy',
-        'PASSWORD': '1c96fd1a3f366b008505839c74aa647983126e8ec866251aaf2e257648ab6079',
-        'HOST': "ec2-99-80-170-190.eu-west-1.compute.amazonaws.com",
-        'PORT': '5432',
-    }
-}
+import dj_database_url
+pg_conf = dj_database_url.config(conn_max_age=600, ssl_require=True)
+sqlite_conf = {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}
 
+DATABASES = {
+    'default': pg_conf or sqlite_conf
+    # {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': '--',
+    #     'USER': '--',
+    #     'PASSWORD': '--',
+    #     'HOST': "--",
+    #     'PORT': '5432',
+    # }
+}
+print(11111, DATABASES)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
