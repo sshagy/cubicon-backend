@@ -104,7 +104,7 @@ DATABASES = {
     #     'PORT': '5432',
     # }
 }
-print(11111, DATABASES)
+# print(11111, DATABASES)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -141,6 +141,7 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
 STATICFILES_DIRS = (BASE_DIR / 'static',)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 if not (BASE_DIR / 'static').exists():
     (BASE_DIR / 'static').mkdir()
