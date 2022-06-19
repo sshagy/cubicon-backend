@@ -9,3 +9,4 @@ router.register(r'users', views.UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 ]
+app_name = __package__.split('.')[-1]

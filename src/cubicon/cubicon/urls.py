@@ -14,10 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include, re_path, reverse
 from django.conf import settings
 
-from .views import get_api_navigation, get_api_root_view, AboutViewSet
+from .views import get_api_navigation, get_api_root_view, AboutViewSet, HealthView
 
 
 admin.autodiscover()
@@ -27,13 +27,71 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('docs/', include('docs.urls')),
     # path('api/v1/logs/', include('models_logging.api.urls')),
-    path('api/v1/about/', AboutViewSet.as_view({'get': 'version'}), name='about-version'),
-    # path('api/v1/health/', views.HealthView.as_view(
-    #     authentication_classes=[], permission_classes=[]), name='Application health'),
+    path('api/v1/about/', AboutViewSet.as_view({'get': 'version'}), name='version'),
+    path('api/v1/health/', HealthView.as_view(
+        authentication_classes=[], permission_classes=[]), name='health'),
 
     path('api/v1/accounts/', include('accounts.urls')),
     path('api/v1/events/', include('events.urls')),
 ]
+app_name = __package__.split('.')[-1]
+
+
+
+
+# urlpatterns += [
+# path('api/v1/',
+#          get_api_root_view(api_root_dict=get_api_navigation(urlpatterns, pattern='api/v1/'), verbose_name='V1'),
+#          name='api-root-v1'),
+# ]
+urlpatterns += [
+    path(
+        'api/',
+        get_api_root_view(
+             api_root_dict={
+                 'v1': 'api-root-v1',
+                 # 'v2': 'api-root-v2',
+             },
+             verbose_name='Versions API'
+        ),
+        name='api-root-versions',
+        # name='api-root-v1',
+    ),
+]
+# добавляем навигацию для эндпоинтов `/, /api/, /api/v1|v2/`
+urlpatterns += [
+    re_path(r'^$',
+            get_api_root_view(
+                api_root_dict={
+                    **get_api_navigation(urlpatterns),
+                    'admin': 'admin:index',
+                    'docs': 'docs_api_root',
+                    # 'api': 'api-root-versions',
+                },
+                verbose_name='Root'),
+            name='api-root-main'),
+    path('api/v1/',
+         get_api_root_view(api_root_dict=get_api_navigation(urlpatterns, pattern='api/v1/'), verbose_name='V1'),
+         name='api-root-v1'),
+    # path('api/v2/',
+    #      get_api_root_view(api_root_dict=get_api_navigation(urlpatterns, pattern='api/v2/'), verbose_name='V2'),
+    #      name='api-root-v2'),
+]
+# urlpatterns += [
+#     path(
+#         'api/',
+#         get_api_root_view(
+#              api_root_dict={
+#                  'v1': 'api-root-v1',
+#                  # 'v2': 'api-root-v2',
+#              },
+#              verbose_name='Versions API'
+#         ),
+#         name='api-root-versions',
+#         # name='api-root-v1',
+#     ),
+# ]
+# print(1111, urlpatterns)
 
 
 if settings.DEBUG:
@@ -48,42 +106,3 @@ if settings.DEBUG:
     if apps.is_installed('debug_toolbar'):
         # import debug_toolbar
         urlpatterns += [path('__debug__/', include('debug_toolbar.urls'))]
-
-
-# добавляем навигацию для эндпоинтов `/, /api/, /api/v1|v2/`
-urlpatterns += [
-    path(r'api/v1/',
-         get_api_root_view(
-             api_root_dict={
-
-                # **get_api_navigation(urlpatterns)
-                 # 'v1': 'api-root-v1',
-                 # 'v2': 'api-root-v2',
-             },
-             verbose_name='Versions API'
-         ),
-         name='api-root-versions'),
-# path('api/v1/',
-#          get_api_root_view(api_root_dict=get_api_navigation(urlpatterns, pattern='api/v1/'), verbose_name='V1'),
-#          name='api-root-v1'),
-]
-urlpatterns += [
-    re_path(r'^$',
-            get_api_root_view(
-                api_root_dict={
-                    **get_api_navigation(urlpatterns),
-                    'admin': 'admin:index',
-                    'docs': 'docs_api_root',
-                    # 'api': 'api-root-versions',
-                },
-                verbose_name='Root'),
-            name='api-root-main'),
-    # path('api/v1/',
-    #      get_api_root_view(api_root_dict=get_api_navigation(urlpatterns, pattern='api/v1/'), verbose_name='V1'),
-    #      name='api-root-v1'),
-    # path('api/v2/',
-    #      get_api_root_view(api_root_dict=get_api_navigation(urlpatterns, pattern='api/v2/'), verbose_name='V2'),
-    #      name='api-root-v2'),
-]
-print(1111, urlpatterns)
-

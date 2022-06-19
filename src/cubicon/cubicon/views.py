@@ -2,20 +2,19 @@ import logging.config
 import datetime
 from typing import *
 
+import git
 from rest_framework.exceptions import ValidationError
-from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.routers import APIRootView
-
-# отключение частичного обновления PATCH, которое
-# никем не использовалось и захламляло документацию.
-# TODO: собрать с фронтов инфу, где они используют метод PATCH, пока не удаляем метод.
 from rest_framework.viewsets import ViewSet
+from rest_framework.views import APIView
 
-if hasattr(UpdateModelMixin, 'partial_update') and 0:
-    logging.log(logging.DEBUG, 'Remove `partial_update` from `UpdateModelMixin`')
-    del UpdateModelMixin.partial_update
+if 0:
+    from rest_framework.mixins import UpdateModelMixin
+    if hasattr(UpdateModelMixin, 'partial_update'):
+        logging.log(logging.DEBUG, 'Remove `partial_update` from `UpdateModelMixin`')
+        del UpdateModelMixin.partial_update
 
 
 def get_api_navigation(urlpatterns: List['RoutePattern'], pattern: str = None) -> Dict[str, str]:
@@ -27,15 +26,15 @@ def get_api_navigation(urlpatterns: List['RoutePattern'], pattern: str = None) -
             return reverse(view_name_func(p))
         except Exception as e:
             return ''
-    print(222, {
-        view_key_func(p): view_name_func(p)
-        for p in urlpatterns
-        if pattern is None or pattern in safe_reverse(p)
-    })
+
+    # for p in urlpatterns:
+    #     if pattern is None or pattern in safe_reverse(p):
+    #         print(222, p.__dict__,  {view_key_func(p): view_name_func(p)   })
+    # print("     ", pattern)
     return {
         view_key_func(p): view_name_func(p)
         for p in urlpatterns
-        if pattern is None or pattern in safe_reverse(p)
+        if  (pattern is None or pattern in safe_reverse(p))
     }
 
 
@@ -45,7 +44,9 @@ def get_api_root_view_cls(verbose_name: str) -> Type[Type['APIRootView']]:
 
 def get_api_root_view(api_root_dict: Dict, verbose_name: str):
     cls = get_api_root_view_cls(verbose_name)
-    return cls.as_view(api_root_dict=api_root_dict)
+    v = cls.as_view(api_root_dict=api_root_dict)
+    # print(333, cls.api_root_dict)
+    return v
 
 
 def get_navigation_data(viewset, app_name: str, kwargs: dict = None) -> dict:
@@ -64,6 +65,11 @@ def get_navigation_data(viewset, app_name: str, kwargs: dict = None) -> dict:
     }
 
 
+class HealthView(APIView):
+    def get(self, request):
+        return Response({"Status": "OK"}, status=200)
+
+
 class AboutViewSet(ViewSet):
     """Вьюсет отображения информации о системе"""
     authentication_classes = ()
@@ -72,12 +78,18 @@ class AboutViewSet(ViewSet):
 
     def version(self, request: 'Request'):
         """Информация о ревизии и ветке с которой собран инстанс"""
-        try:
-            import git
-            repository = git.Repo('./')
-        except Exception as e:
+        err = repository = None
+        for path in ['../../', '../', './', ]:
+            try:
+                repository = git.Repo(path)
+                break
+            except Exception as e:
+                err = e
+                pass
+
+        if repository is None:
             # в случае если не нет доступа к git-репозиторию, возвращаем ошибку.
-            raise ValidationError({'error': f'{type(e).__name__}: {str(e)}'})
+            raise ValidationError({'error': f'{err!r}'})
 
         return Response({
             **self._get_commit_info(repository),

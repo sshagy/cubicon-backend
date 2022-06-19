@@ -71,7 +71,9 @@ urlpatterns = [
     #     title='Yet another documentation', authentication_classes=[], permission_classes=[])),
     re_path(r'^$', APIRootView.as_view(api_root_dict={
         # 'drf-doc': 'api-docs:docs-index',
+        'schema': 'schema',
         'swagger': 'swagger-ui',
         'redoc': 'redoc',
     }), name='docs_api_root'),
 ]
+# app_name = __package__.split('.')[-1]

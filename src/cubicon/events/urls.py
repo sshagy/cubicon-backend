@@ -10,3 +10,4 @@ router.register(r'result', views.ResultViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 ]
+app_name = __package__.split('.')[-1]
