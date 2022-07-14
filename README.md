@@ -8,7 +8,7 @@ Just for portfolio, fun &amp; experiments
 
 # Deployed
 - https://cubicon.herokuapp.com/
-- nekit1234.pythonanywhere.com/events/ (old version)
+- http://nekit1234.pythonanywhere.com/events/ (old version)
 
 # TODO
 - [x] Improve navigation links
