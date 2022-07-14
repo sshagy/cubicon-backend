@@ -1,5 +1,5 @@
 # cubicon-backend
-Just for portfolio, fun &amp; experiments
+Just for portfolio, fun &amp; experiments. It can be considered a server side of the project [Cubicon](https://github.com/tmintas/cubicon), the API of which may differ from the original.
 
 # Run
     > python manage.py migrate
