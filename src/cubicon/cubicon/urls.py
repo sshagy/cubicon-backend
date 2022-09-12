@@ -24,6 +24,7 @@ admin.autodiscover()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('sentry-ping/', lambda request: 1 / 0),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('docs/', include('docs.urls')),
     # path('api/v1/logs/', include('models_logging.api.urls')),
