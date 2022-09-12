@@ -6,6 +6,7 @@ gitpython==3.1.27
 django-debug-toolbar
 django-extensions
 gunicorn
+sentry-sdk
 whitenoise
 psycopg2-binary
 dj-database-url
