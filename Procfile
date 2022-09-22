@@ -1,1 +1,1 @@
-web: gunicorn --chdir=src/cubicon cubicon.wsgi --bind=0.0.0.0:80
+web: gunicorn --chdir=src/cubicon cubicon.wsgi

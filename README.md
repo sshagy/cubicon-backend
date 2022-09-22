@@ -9,6 +9,7 @@ Just for portfolio, fun &amp; experiments. It can be considered a server side of
 # Deployed
 - https://cubicon.herokuapp.com/
 - http://nekit1234.pythonanywhere.com/events/ (old version)
+- https://cubicon-backend.sshagy.repl.co
 
 # TODO
 - [x] Improve navigation links
