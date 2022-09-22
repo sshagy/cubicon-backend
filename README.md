@@ -14,7 +14,7 @@ Just for portfolio, fun &amp; experiments. It can be considered a server side of
 - [x] Improve navigation links
 - [ ] Create Makefile (stub yet)
 - [ ] Add autogenerate OpenAPI 3 (v2 yet)
-- [ ] Add poetry
+- [x] Add poetry
 - [ ] Add heroku artefacts???
 - [ ] Add social web auth (Oauth2)
 - [ ] Create Dockerfile + compose.yaml

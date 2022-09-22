@@ -12,3 +12,4 @@ psycopg2-binary
 dj-database-url
 # dj-rest-auth  # https://github.com/iMerica/dj-rest-auth
 # djangorestframework-gis  # https://github.com/openwisp/django-rest-framework-gis
+tzdata

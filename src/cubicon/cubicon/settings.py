@@ -28,7 +28,13 @@ SECRET_KEY = 'django-insecure-x5b5+7s(imv$u%7^xz9q_42)!7yoaqb4hfsqq8muxc!_iw+cay
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'cubicon.herokuapp.com']
+ALLOWED_HOSTS = [
+  'localhost', '127.0.0.1', 'cubicon.herokuapp.com', 
+  'cubicon-backend.sshagy.repl.co',
+  '3498b1f9-243c-424e-8f84-107622f49afe.id.repl.co',
+]
+
+# CSRF_COOKIE_HTTPONLY = True
 
 
 # Application definition
@@ -60,7 +66,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -130,7 +136,7 @@ AUTH_USER_MODEL = 'accounts.User'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
