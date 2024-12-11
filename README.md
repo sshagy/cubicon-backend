@@ -21,3 +21,4 @@ Just for portfolio, fun &amp; experiments. It can be considered a server side of
 - [ ] Create Dockerfile + compose.yaml
 - [ ] Add CICD on Circle + some tests
 - [ ] Add linters (isort, mypy, flake, black)
+- [ ] Move to new python >=3.13
